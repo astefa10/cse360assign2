@@ -87,7 +87,7 @@ public class SimpleList {
 		if(count != 0)
 			count--;
 		
-		if(list.length != 1) {
+		if(size() != 1) {
 			if(((double) (count)/ (double) (list.length))  < .75) {
 				int newSize = (int) (list.length * .75);
 				int[] temp = new int[newSize];
@@ -140,5 +140,61 @@ public class SimpleList {
 				return index;
 		}
 		return -1;
+	}
+	
+	/**
+	 * Returns the first element in the list.
+	 * If the list is empty, -1 is returned instead.
+	 * 
+	 * @return	First element in the list
+	 * 			-1 if list is empty.
+	 */
+	public int first() {
+		if(count == 0)
+			return -1;
+		return list[0];
+	}
+	
+	/**
+	 * Returns the last element in the list.
+	 * If the list is empty, -1 is returned instead.
+	 * 
+	 * @return	Last element in the list
+	 * 			-1 if the list is empty.
+	 */
+	public int last() {
+		if(count == 0)
+			return -1;
+		return list[count - 1];
+	}
+	
+	/**
+	 * Returns the current number of possible
+	 * locations in the list.
+	 * 
+	 * @return	Number of possible locations in the list.
+	 */
+	public int size() {
+		return list.length;
+	}
+	
+	/**
+	 * Adds an element to this SimpleList and increments the count.
+	 * Elements are added at the end of the array.
+	 * If the array is full, the size of the array is increased by
+	 * 50% so that there will be room for the new element.
+	 * 
+	 * @param value	The new element's value.
+	 */
+	public void append(int value) {
+		if(count == list.length) {
+			int[] temp = new int[(int) (list.length * 1.5)];
+			for(int i = 0; i < list.length; i++) {
+				temp[i] = list[i]; 
+			}
+			list = temp;
+		}
+		list[count] = value;
+		count++;
 	}
 }
