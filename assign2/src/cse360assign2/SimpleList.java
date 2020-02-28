@@ -40,21 +40,28 @@ public class SimpleList {
 	 * Adds an element to this SimpleList and increments the count.
 	 * Elements are added at the beginning of the array, with the current
 	 * elements shifted to the right to make room.
-	 * If the array is full, the last element is simply overwritten.
+	 * If the array is full, the size of the array is increased by
+	 * 50% so that there will be room for the new element.
 	 * 
 	 * @param value The new element's value.
 	 */
 	public void add(int value) {
 		int[] tempList = list.clone();
 		
+		if(count == list.length) {
+			int[] temp = new int[(int) (list.length * 1.5)];
+			for(int i = 0; i < list.length; i++) {
+				temp[i] = list[i]; 
+			}
+			list = temp;
+		}
 		for(int index = 0; index < count; index++) {
 			/** Stay in bounds of array */
-			if(index != 9)
+			if(index != list.length - 1)
 				list[index + 1] = tempList[index];
 		}
 		list[0] = value;
-		if(count != 10)
-			count++;
+		count++;
 	}
 	
 	/**
@@ -62,6 +69,9 @@ public class SimpleList {
 	 * If the element does not exist, nothing is done.
 	 * If the element does exist, it is removed, and the remaining
 	 * elements are moved down as needed. 
+	 * If the list has more than 25% empty places, the size of
+	 * the list is decreased by 25%.
+	 * List will always be able to hold at least one entry.
 	 * 
 	 * @param value	The value of the element to be removed.
 	 */
@@ -74,9 +84,20 @@ public class SimpleList {
 		for(int index = search(value); index < count - 1; index++) {
 			list[index] = tempList[index + 1];
 		}
-		
 		if(count != 0)
 			count--;
+		
+		if(list.length != 1) {
+			if(((double) (count)/ (double) (list.length))  < .75) {
+				int newSize = (int) (list.length * .75);
+				int[] temp = new int[newSize];
+				for(int i = 0; i < newSize; i++) {
+					temp[i] = list[i]; 
+				}
+				list = temp;
+			}
+		}
+		
 	}
 	
 	/**
